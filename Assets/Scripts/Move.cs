@@ -18,13 +18,13 @@ public class Move : MonoBehaviour
     private PlayerSensor wallSensorL1;
     private PlayerSensor wallSensorL2;
     private bool isWallSliding = false;
-    private bool onTheFloor = false;
+    public bool onTheFloor = false;
     private bool rolling = false;
     private int facingDirection = 1;
     private int currentAttack = 0;
     private float timeSinceAttack = 0.0f;
     private float delayToIdle = 0.0f;
-    private float rollDuration = 8.0f / 14.0f;
+    public float rollDuration = 8.0f / 14.0f;
     private float rollCurrentTime;
 
 
@@ -58,12 +58,12 @@ public class Move : MonoBehaviour
         if (!onTheFloor && floorSensor.State())
         {
             onTheFloor = true;
-            animator.SetBool("onTheFloor", onTheFloor);
+            animator.SetBool("Grounded", onTheFloor);
         }
         if (onTheFloor && !floorSensor.State())
         {
             onTheFloor = false;
-            animator.SetBool("onTheFloor", onTheFloor);
+            animator.SetBool("Grounded", onTheFloor);
         }
 
         /* *** ENTRADA Y MOVIMIENTO *** */
@@ -150,7 +150,7 @@ public class Move : MonoBehaviour
         {
             animator.SetTrigger("Jump");
             onTheFloor = false;
-            animator.SetBool("onTheFloor", onTheFloor);
+            animator.SetBool("Grounded", onTheFloor);
             body2d.velocity = new Vector2(body2d.velocity.x, jumpForce);
             floorSensor.Disable(0.2f);
         }
