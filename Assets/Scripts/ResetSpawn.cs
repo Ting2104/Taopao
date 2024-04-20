@@ -4,15 +4,26 @@ using UnityEngine;
 
 public class ResetSpawn : MonoBehaviour
 {
+    Vector2 startPos;
     // Start is called before the first frame update
     void Start()
     {
-        
+        startPos = transform.position;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        
+        if(collision.CompareTag("Obstacle"))
+        {
+            Die();
+        }
+    }
+    void Die()
+    {
+        Respawn();
+    }
+    void Respawn()
+    {
+        transform.position = startPos;
     }
 }

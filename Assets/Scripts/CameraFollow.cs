@@ -32,10 +32,12 @@ public class CameraFollow : MonoBehaviour
             playerY = playerFollow.transform.position.y;
             if (playerX > xMin && playerX < xMax)
                 camX = playerX;
-            float mejorCam = camY - camY / 4;
+
+            //intento de mejorar la cámara fallida
+            /*float mejorCam = camY - camY / 4;
             if (mejorCam > 0) { mejorCam = -mejorCam; }
             if (playerY > yMin && playerY < yMax)
-                camY = playerY;
+                camY = playerY;*/
         }
         transform.position = Vector3.Lerp(transform.position, new Vector3(camX, camY, -1), speed * Time.deltaTime);
     }

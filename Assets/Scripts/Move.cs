@@ -7,7 +7,7 @@ public class Move : MonoBehaviour
     [SerializeField] float speed = 4.0f;
     [SerializeField] float jumpForce = 7.5f;
     [SerializeField] float rollForce = 6.0f;
-    [SerializeField] bool noBlood = false;
+    //[SerializeField] bool noBlood = false;
     [SerializeField] GameObject slideDust;
 
     private Animator animator;
@@ -93,7 +93,7 @@ public class Move : MonoBehaviour
         //Personaje cayendo
         isWallSliding = (wallSensorR1.State() && wallSensorR2.State()) || (wallSensorL1.State() && wallSensorL2.State());
         animator.SetBool("WallSlide", isWallSliding);
-
+        /*
         //Muere el personaje
         if (Input.GetKeyDown("e") && !rolling)
         {
@@ -104,9 +104,9 @@ public class Move : MonoBehaviour
         //Recibe un ataque
         else if (Input.GetKeyDown("q") && !rolling)
             animator.SetTrigger("Hurt");
-
+        */
         //Atacar
-        else if (Input.GetMouseButtonDown(0) && timeSinceAttack > 0.25f && !rolling)
+        if (Input.GetMouseButtonDown(0) && timeSinceAttack > 0.25f && !rolling)
         {
             /*Hay tres animaciones de ataque*/
             currentAttack++;

@@ -5,6 +5,7 @@ using UnityEngine.Windows;
 
 public class Spawn : MonoBehaviour
 {
+    //Este código aún no se ha aplicado en el juego
     private Rigidbody2D body2d;
     public GameObject player;
     private Animator animator;
