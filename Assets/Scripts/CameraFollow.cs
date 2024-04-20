@@ -5,14 +5,20 @@ using UnityEngine;
 public class CameraFollow : MonoBehaviour
 {
     public GameObject playerFollow;
+    public GameObject limitI, limitD;
 
     public float xMin, xMax, yMin, yMax;
     private float camY, camX;
     private float playerX, playerY;
-    public float speed = 0.5f;
+    public float speed;
 
     private void Start()
     {
+        xMin = limitI.transform.position.x;
+        xMax = limitD.transform.position.x;
+        yMin = limitI.transform.position.y;
+        yMax = limitD.transform.position.y;
+
         camX = playerX + xMin;
         camY = playerY + yMin;
         transform.position = Vector3.Lerp(transform.position, new Vector3(camX, camY, -1), 1);
@@ -26,6 +32,8 @@ public class CameraFollow : MonoBehaviour
             playerY = playerFollow.transform.position.y;
             if (playerX > xMin && playerX < xMax)
                 camX = playerX;
+            float mejorCam = camY - camY / 4;
+            if (mejorCam > 0) { mejorCam = -mejorCam; }
             if (playerY > yMin && playerY < yMax)
                 camY = playerY;
         }
