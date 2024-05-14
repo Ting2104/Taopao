@@ -5,7 +5,6 @@ using UnityEngine.Windows;
 
 public class Spawn : MonoBehaviour
 {
-    //Este código aún no se ha aplicado en el juego
     private Rigidbody2D body2d;
     public GameObject player;
     private Animator animator;
@@ -24,29 +23,28 @@ public class Spawn : MonoBehaviour
     void Update()
     {
         //Mientras el personaje no haya pasado la puerta
-        while(!passTheDoor)
+        if (!passTheDoor)
         {
-            /* *** ANIMACIONES PUERTA *** */
-            //Aún no ha pasado. Puerta abierta
-            if (player.transform.position.x < body2d.transform.position.x + spawnDistance)
+            //Puerta abierta
+            if (player.transform.position.x < body2d.transform.position.x)
             {
                 doorClose = false;
-                while (doorClose == false)
-                    animator.Play("OpenDoor", 0);
+                animator.Play("OpenDoor");
             }
-            //Paso la spawnDistance de la puerta. Puerta cerrando
-            else
+            //Paso la spawnDistance de la puerta
+            else if (player.transform.position.x > body2d.transform.position.x)
             {
                 doorClose = true;
-                animator.Play("MoveDoor", 0);
                 passTheDoor = true;
+                //Puerta cerrando
+                animator.Play("MoveDoor");
             }
         }
         //Cuando la puerta está cerrada, para que siga en la misma posición
-        while(doorClose)
+        else if (doorClose)
         {
-            //Paso y se fue. Puerta cerrada
-            animator.Play("CloseDoor", 0);
+            //Puerta cerrada
+            animator.Play("CloseDoor");
         }
     }
 }

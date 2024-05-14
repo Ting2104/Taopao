@@ -6,8 +6,6 @@ public class Move : MonoBehaviour
 
     [SerializeField] float speed = 4.0f;
     [SerializeField] float jumpForce = 7.5f;
-    [SerializeField] float rollForce = 6.0f;
-    //[SerializeField] bool noBlood = false;
     [SerializeField] GameObject slideDust;
 
     private Animator animator;
@@ -19,14 +17,10 @@ public class Move : MonoBehaviour
     private PlayerSensor wallSensorL2;
     private bool isWallSliding = false;
     public bool onTheFloor = false;
-    private bool rolling = false;
     private int facingDirection = 1;
     private int currentAttack = 0;
     private float timeSinceAttack = 0.0f;
     private float delayToIdle = 0.0f;
-    public float rollDuration = 8.0f / 14.0f;
-    private float rollCurrentTime;
-
 
     // Use this for initialization
     void Start()
@@ -45,15 +39,6 @@ public class Move : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Aumentar el tiempo del combo de ataque y el tiempo de hacer volteretas 
-        timeSinceAttack += Time.deltaTime;
-        if (rolling)
-            rollCurrentTime += Time.deltaTime;
-
-        //Dejar de rodar si el tiempo se pasa del tiempo puesto (rollDuration)
-        if (rollCurrentTime > rollDuration)
-            rolling = false;
-
         //Comprovar si el personaje esta EN EL SUELO o si esta CAYENDO
         if (!onTheFloor && floorSensor.State())
         {
@@ -83,8 +68,7 @@ public class Move : MonoBehaviour
         }
 
         //Mover
-        if (!rolling)
-            body2d.velocity = new Vector2(inputX * speed, body2d.velocity.y);
+        body2d.velocity = new Vector2(inputX * speed, body2d.velocity.y);
 
         //Establecer AirSpeed en animator
         animator.SetFloat("AirSpeedY", body2d.velocity.y);
@@ -95,18 +79,18 @@ public class Move : MonoBehaviour
         animator.SetBool("WallSlide", isWallSliding);
         /*
         //Muere el personaje
-        if (Input.GetKeyDown("e") && !rolling)
+        if (Input.GetKeyDown("e"))
         {
             animator.SetBool("noBlood", noBlood);
             animator.SetTrigger("Death");
         }
 
         //Recibe un ataque
-        else if (Input.GetKeyDown("q") && !rolling)
+        else if (Input.GetKeyDown("q"))
             animator.SetTrigger("Hurt");
         */
         //Atacar
-        if (Input.GetMouseButtonDown(0) && timeSinceAttack > 0.25f && !rolling)
+        if (Input.GetMouseButtonDown(0) && timeSinceAttack > 0.25f)
         {
             /*Hay tres animaciones de ataque*/
             currentAttack++;
@@ -127,7 +111,7 @@ public class Move : MonoBehaviour
         }
 
         //Bloquear el ataque de los enemigos
-        else if (Input.GetMouseButtonDown(1) && !rolling)
+        else if (Input.GetMouseButtonDown(1))
         {
             animator.SetTrigger("Block");
             animator.SetBool("IdleBlock", true);
@@ -136,17 +120,8 @@ public class Move : MonoBehaviour
         else if (Input.GetMouseButtonUp(1))
             animator.SetBool("IdleBlock", false);
 
-        //Voltereta
-        else if (Input.GetKeyDown("left shift") && !rolling && !isWallSliding)
-        {
-            rolling = true;
-            animator.SetTrigger("Roll");
-            body2d.velocity = new Vector2(facingDirection * rollForce, body2d.velocity.y);
-        }
-
-
         //Saltar
-        else if ((Input.GetKeyDown("up") || Input.GetKeyDown("w")) && onTheFloor && !rolling)
+        else if ((Input.GetKeyDown("up") || Input.GetKeyDown("w")) && onTheFloor)
         {
             animator.SetTrigger("Jump");
             onTheFloor = false;
