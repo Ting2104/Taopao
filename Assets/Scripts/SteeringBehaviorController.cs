@@ -8,7 +8,7 @@ public class SteeringBehaviorController : MonoBehaviour
     private Rigidbody2D rb;
     private Steering[] steerings;
 
-    public float maxAcceleration = 10f;
+    public float maxAcceleration = 5.0f;
     public float maxAngularAcceleration = 3f;
     public float drag = 1f;
 

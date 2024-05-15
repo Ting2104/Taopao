@@ -5,18 +5,24 @@ using UnityEngine;
 
 public class SeekBehavior : Steering
 {
-    public Transform target;
+    public Transform player;
+    float distance = 5;
 
     public override SteeringData GetSteering(SteeringBehaviorController steeringController)
     {
         SteeringData steering = new SteeringData();
         steering.linear = Vector3.zero;
 
-        if (target == null)
+        if (player == null)
             return new SteeringData();
-        if(target.position.x + 5 >= transform.position.x)
+        if (player.transform.position.x >= transform.position.x - distance && player.transform.position.x <= transform.position.x - 2)
         {
-            steering.linear = (target.position - transform.position).normalized * steeringController.maxAcceleration;
+            steering.linear = (player.position - transform.position).normalized * steeringController.maxAcceleration;
+            steering.angular = 0.0f;
+        }
+        else if (player.transform.position.x <= transform.position.x + distance && player.transform.position.x >= transform.position.x + 2)
+        {
+            steering.linear = (player.position - transform.position).normalized * steeringController.maxAcceleration;
             steering.angular = 0.0f;
         }
 

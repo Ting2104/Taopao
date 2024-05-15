@@ -1,14 +1,17 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Windows;
+using static UnityEngine.GraphicsBuffer;
 
 public class Bandido : MonoBehaviour
 {
-    //[SerializeField] float speed = 4.0f;
-    protected Animator animator;
-    protected Rigidbody2D body2d;
+    Animator animator;
+    Rigidbody2D body2d;
     public GameObject player;
-    //private int facingDirection = 1;
+    float distance = 5;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -19,11 +22,15 @@ public class Bandido : MonoBehaviour
     // Update is called once per frame
     public virtual void Update()
     {
-        if (player.transform.position.x + 5 >= transform.position.x)
+        if (player.transform.position.x >= transform.position.x - distance && player.transform.position.x <= transform.position.x - 2)
         {
             animator.Play("B_Run");
         }
-        else if (player.transform.position.x - 1 == body2d.position.x || player.transform.position.x + 1 == body2d.position.x)
+        else if (player.transform.position.x <= transform.position.x + distance && player.transform.position.x >= transform.position.x + 2)
+        {
+            animator.Play("B_Run");
+        }
+        else if (player.transform.position.x > transform.position.x - 2 && player.transform.position.x < transform.position.x + 2)
         {
             animator.Play("B_Attack");
         }
@@ -32,5 +39,9 @@ public class Bandido : MonoBehaviour
             animator.Play("B_Idle");
         }
 
+        if (player.transform.position.x > body2d.position.x)
+            GetComponent<SpriteRenderer>().flipX = true;
+        else if (player.transform.position.x < body2d.position.x)
+            GetComponent<SpriteRenderer>().flipX = false;
     }
 }

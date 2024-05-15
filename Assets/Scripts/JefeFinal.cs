@@ -5,11 +5,11 @@ using static UnityEngine.GraphicsBuffer;
 
 public class JefeFinal : MonoBehaviour
 {
-    //[SerializeField] float speed = 4.0f;
-    protected Animator animator;
-    protected Rigidbody2D body2d;
+    Animator animator;
+    Rigidbody2D body2d;
     public GameObject player;
-    //private int facingDirection = 1;
+    private float distance = 5;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -20,12 +20,17 @@ public class JefeFinal : MonoBehaviour
     // Update is called once per frame
     public virtual void Update()
     {
-        if (player.transform.position.x + 5 >= transform.position.x)
-            animator.Play("F_B_Run");
-        else if (player.transform.position.x - 1 == body2d.position.x || player.transform.position.x + 1 == body2d.position.x)
-            animator.Play("F_B_Attack");
+        if (player.transform.position.x >= transform.position.x - distance && player.transform.position.x <= transform.position.x - 2)
+        {
+            animator.Play("FB_Walk");
+        }
+        else if (player.transform.position.x > transform.position.x - 2 && player.transform.position.x < transform.position.x + 2)
+        {
+            animator.Play("FB_Attack");
+        }
         else
-            animator.Play("F_B_Idle");
-
+        {
+            animator.Play("FB_Idle");
+        }
     }
 }
