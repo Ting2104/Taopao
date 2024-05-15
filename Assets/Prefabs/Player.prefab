@@ -254,6 +254,7 @@ GameObject:
   - component: {fileID: 4309943272236521645}
   - component: {fileID: 4527201132961956787}
   - component: {fileID: 8651065040430613773}
+  - component: {fileID: 9094398418991881623}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -440,9 +441,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 4
   jumpForce: 7.5
-  rollForce: 6
-  noBlood: 0
   slideDust: {fileID: 0}
+  onTheFloor: 0
+--- !u!114 &9094398418991881623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5085785131302665974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92f46edf34c01d44c9841b44642feb85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5953085112438970465
 GameObject:
   m_ObjectHideFlags: 0

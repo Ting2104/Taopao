@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Windows;
 
@@ -9,9 +10,8 @@ public class Spawn : MonoBehaviour
     public GameObject player;
     private Animator animator;
 
-    private bool doorClose = false;
-    private bool passTheDoor = false;
-    public float spawnDistance;
+    private bool doorClose;
+    private bool passTheDoor;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,29 +22,23 @@ public class Spawn : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Mientras el personaje no haya pasado la puerta
+        if(player.transform.position.x < body2d.transform.position.x)
+        {
+            passTheDoor = false;
+            doorClose = false;
+        }
         if (!passTheDoor)
         {
-            //Puerta abierta
-            if (player.transform.position.x < body2d.transform.position.x)
+            if (player.transform.position.x > body2d.transform.position.x)
             {
-                doorClose = false;
-                animator.Play("OpenDoor");
-            }
-            //Paso la spawnDistance de la puerta
-            else if (player.transform.position.x > body2d.transform.position.x)
-            {
-                doorClose = true;
                 passTheDoor = true;
-                //Puerta cerrando
                 animator.Play("MoveDoor");
+                doorClose = true;
             }
         }
-        //Cuando la puerta está cerrada, para que siga en la misma posición
-        else if (doorClose)
+        if(!doorClose)
         {
-            //Puerta cerrada
-            animator.Play("CloseDoor");
+            animator.Play("OpenDoor");
         }
     }
 }
