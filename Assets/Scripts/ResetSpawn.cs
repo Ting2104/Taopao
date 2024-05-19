@@ -22,7 +22,7 @@ public class ResetSpawn : MonoBehaviour
     {
         Respawn();
     }
-    void Respawn()
+    public void Respawn()
     {
         transform.position = startPos;
     }
