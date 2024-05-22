@@ -58,7 +58,7 @@ public class JefeFinal : MonoBehaviour
         {
             if (player.CompareTag("Player"))
             {
-                player.GetComponent<Move>().TakeDamage(attackDamage);
+                player.GetComponent<Player>().TakeDamage(attackDamage);
             }
 
         }
@@ -80,7 +80,7 @@ public class JefeFinal : MonoBehaviour
             }
             else if (player.transform.position.x >= transform.position.x - radioAttack && nextAttack <= 0)
             {
-                playerBlock = player.GetComponent<Move>().BlockTheAttack();
+                playerBlock = player.GetComponent<Player>().BlockTheAttack();
                 nextAttack = timeSinceAttack;
                 animator.Play("FB_Attack");
                 if (!playerBlock)
