@@ -6,7 +6,8 @@ using UnityEngine;
 public class SeekBehavior : Steering
 {
     public Transform player;
-    float distance = 5;
+    [SerializeField] float followDistance = 5;
+    [SerializeField] float attackDistance = 2;
 
     public override SteeringData GetSteering(SteeringBehaviorController steeringController)
     {
@@ -15,12 +16,8 @@ public class SeekBehavior : Steering
 
         if (player == null)
             return new SteeringData();
-        if (player.transform.position.x >= transform.position.x - distance && player.transform.position.x <= transform.position.x - 3)
-        {
-            steering.linear = (player.position - transform.position).normalized * steeringController.maxAcceleration;
-            steering.angular = 0.0f;
-        }
-        else if (player.transform.position.x <= transform.position.x + distance && player.transform.position.x >= transform.position.x + 3)
+        if ((player.transform.position.x >= transform.position.x - followDistance && player.transform.position.x <= transform.position.x - attackDistance) ||
+            (player.transform.position.x <= transform.position.x + followDistance && player.transform.position.x >= transform.position.x + attackDistance))
         {
             steering.linear = (player.position - transform.position).normalized * steeringController.maxAcceleration;
             steering.angular = 0.0f;

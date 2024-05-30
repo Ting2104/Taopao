@@ -16,9 +16,10 @@ GameObject:
   - component: {fileID: 8505487010910364199}
   - component: {fileID: 8671418967767425277}
   - component: {fileID: 1303143237762312801}
+  - component: {fileID: 2727404956008975666}
   m_Layer: 0
   m_Name: Jefe Final
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -31,18 +32,19 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 857719734128217991}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.028663412}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 4, y: 4, z: 4}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7954658733039508283}
+  - {fileID: 6541517327182744184}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 234.6079, y: -2.1775}
-  m_SizeDelta: {x: 0.4352, y: 0.5724}
-  m_Pivot: {x: -0.31662276, y: 0.8089957}
+  m_AnchoredPosition: {x: 235.31633, y: -1.7183357}
+  m_SizeDelta: {x: 0.0017, y: -0.6319}
+  m_Pivot: {x: -0.25885442, y: 0.8331443}
 --- !u!212 &4388657933947266831
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -154,7 +156,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.3584926, y: -0.18325868}
+  m_Offset: {x: 0.34436166, y: -0.18325868}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -165,7 +167,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.4261856, y: 0.5634826}
+  m_Size: {x: 0.4544475, y: 0.5634826}
   m_EdgeRadius: 0
 --- !u!95 &910989223580085513
 Animator:
@@ -177,7 +179,7 @@ Animator:
   m_GameObject: {fileID: 857719734128217991}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 21ead4939da01644bb815b610619f497, type: 2}
+  m_Controller: {fileID: 9100000, guid: e8f04cf3a79a17840bda6f553f2797d9, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -200,15 +202,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39c35ae790133624eb384eb766bce118, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeSinceAttack: 3
-  nextAttack: 0
+  attackController: {fileID: 5925126631697546635}
   player: {fileID: 0}
   maxHealth: 200
-  currentHealth: 0
-  attackDamage: 50
-  distance: 5
-  radioAttack: 0
-  attackController: {fileID: 0}
+  nextAttack: 5
+  followDistance: 5
 --- !u!114 &8671418967767425277
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -238,6 +236,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weight: 1
   player: {fileID: 0}
+--- !u!114 &2727404956008975666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 857719734128217991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2e1793e6da2ae542a508ecbab0e2a43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackController: {fileID: 5925126631697546635}
+  Player: {fileID: 0}
+  maxHealth: 200
+  currentHealth: 3
+  timeSinceAttack: 0
+  nextAttack: 0
+  attackDamage: 20
+  radioAttack: 2
 --- !u!1 &5925126631697546635
 GameObject:
   m_ObjectHideFlags: 0
@@ -269,3 +287,59 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4969209286198484016}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6642327324607609589
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6541517327182744184}
+  - component: {fileID: 7820054327296813645}
+  m_Layer: 0
+  m_Name: EnemyCombat
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &6541517327182744184
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6642327324607609589}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4969209286198484016}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &7820054327296813645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6642327324607609589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2e1793e6da2ae542a508ecbab0e2a43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackController: {fileID: 0}
+  Player: {fileID: 0}
+  maxHealth: 0
+  currentHealth: 0
+  timeSinceAttack: 0
+  nextAttack: 0
+  attackDamage: 0
+  radioAttack: 0

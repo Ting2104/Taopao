@@ -265,7 +265,7 @@ Transform:
   m_GameObject: {fileID: 2112550953266259001}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.68, y: 0.8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -286,6 +286,7 @@ GameObject:
   - component: {fileID: 4527201132961956787}
   - component: {fileID: 8651065040430613773}
   - component: {fileID: 9094398418991881623}
+  - component: {fileID: 1555383402183874831}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -302,8 +303,8 @@ Transform:
   m_GameObject: {fileID: 5085785131302665974}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.34, y: -2.9, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_LocalPosition: {x: 0, y: -0.97, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4125333487931824251}
@@ -471,16 +472,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fcd1482aa9923944a97f2e67e971bee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  slideDust: {fileID: 0}
+  nextAttack: 0
+  timeSinceAttack: 0.5
   speed: 4
   jumpForce: 7.5
-  slideDust: {fileID: 0}
-  attackController: {fileID: 0}
-  radioAttack: 0
-  timeSinceAttack: 1
-  nextAttack: 0
-  onTheFloor: 0
-  attackDamage: 40
-  maxHealth: 100
 --- !u!114 &9094398418991881623
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -493,6 +489,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92f46edf34c01d44c9841b44642feb85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1555383402183874831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5085785131302665974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c601897b06e03e4428c703cde6e6c2ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackController: {fileID: 0}
+  currentHealth: 0
+  maxHealth: 100
+  radioAttack: 0
+  timeSinceAttack: 1
+  nextAttack: 0
+  attackDamage: 20
 --- !u!1 &5953085112438970465
 GameObject:
   m_ObjectHideFlags: 0
