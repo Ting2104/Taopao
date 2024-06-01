@@ -7,7 +7,6 @@ using static UnityEngine.GraphicsBuffer;
 public class JefeFinal : MonoBehaviour
 {
     [SerializeField] GameObject attackController;
-    [SerializeField] int maxHealth;
     [SerializeField] float followDistance = 5;
     [SerializeField] float attackDistance = 2;
     [SerializeField] Transform player;
@@ -15,8 +14,6 @@ public class JefeFinal : MonoBehaviour
     Animator animator;
     Rigidbody2D body2d;
     private float delayToIdle = 0.0f;
-
-    //bool death = false;
     bool playerBlock;
     // Start is called before the first frame update
     void Start()

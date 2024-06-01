@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 8671418967767425277}
   - component: {fileID: 1303143237762312801}
   - component: {fileID: 2727404956008975666}
+  - component: {fileID: 550106834459761039}
   m_Layer: 0
   m_Name: Jefe Final
   m_TagString: Enemy
@@ -159,7 +160,7 @@ BoxCollider2D:
   m_Offset: {x: 0.34436166, y: -0.18325868}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0.75, y: 0.35}
     oldSize: {x: 1.4, y: 0.93}
     newSize: {x: 1.4, y: 0.93}
     adaptiveTilingThreshold: 0.5
@@ -203,10 +204,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackController: {fileID: 5925126631697546635}
-  player: {fileID: 0}
-  maxHealth: 200
-  nextAttack: 5
   followDistance: 5
+  attackDistance: 2
+  player: {fileID: 0}
 --- !u!114 &8671418967767425277
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -236,6 +236,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weight: 1
   player: {fileID: 0}
+  followDistance: 5
+  attackDistance: 2
 --- !u!114 &2727404956008975666
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -249,13 +251,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackController: {fileID: 5925126631697546635}
-  Player: {fileID: 0}
-  maxHealth: 200
-  currentHealth: 3
+  currentHealthEnemy: 0
+  currentHealthPlayer: 0
+  radioAttack: 2
   timeSinceAttack: 0
   nextAttack: 0
   attackDamage: 20
-  radioAttack: 2
+  deathPlayer: 0
+  deathEnemy: 0
+  player: {fileID: 0}
+--- !u!114 &550106834459761039
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 857719734128217991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae159d3bfd4f05e42aa8ad5cd3e33d44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: {fileID: 0}
+  healthUI: {fileID: 0}
+  healthBar: {fileID: 0}
+  healthValue: {fileID: 0}
 --- !u!1 &5925126631697546635
 GameObject:
   m_ObjectHideFlags: 0
@@ -336,10 +356,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackController: {fileID: 0}
-  Player: {fileID: 0}
-  maxHealth: 0
-  currentHealth: 0
+  currentHealthEnemy: 0
+  currentHealthPlayer: 0
+  radioAttack: 0
   timeSinceAttack: 0
   nextAttack: 0
   attackDamage: 0
-  radioAttack: 0
+  deathPlayer: 0
+  deathEnemy: 0
+  player: {fileID: 0}

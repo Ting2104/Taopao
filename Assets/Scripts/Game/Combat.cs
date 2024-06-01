@@ -9,12 +9,12 @@ using static Unity.Collections.AllocatorManager;
 public abstract class Combat : MonoBehaviour
 {
     [SerializeField] protected GameObject attackController;
-    [SerializeField] protected int currentHealth;
-    [SerializeField] protected int maxHealth;
+    [SerializeField] public int currentHealthEnemy, currentHealthPlayer;
     [SerializeField] protected int radioAttack;
     [SerializeField] protected float timeSinceAttack = 1;
     [SerializeField] protected float nextAttack;
     [SerializeField] protected int attackDamage = 20;
+    [SerializeField] public static int maxHealthEnemy, maxHealthPlayer;
 
     public event Action<bool> IsGameOver;
     public event Action<bool> IsGameWin;
@@ -28,12 +28,11 @@ public abstract class Combat : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
-
-        currentHealth = maxHealth;
+        currentHealthEnemy = maxHealthEnemy;
+        currentHealthPlayer = maxHealthPlayer;
     }
-    public void TakeDamage(int damage)
+    public virtual void TakeDamage(int damage)
     {
-        currentHealth -= damage;
         animator.SetTrigger("Hurt");
         if(deathPlayer)
             IsGameOver?.Invoke(deathPlayer);

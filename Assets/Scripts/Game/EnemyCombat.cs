@@ -7,12 +7,17 @@ using static Unity.Collections.AllocatorManager;
 public class EnemyCombat : Combat
 {
     [SerializeField] Transform player;
+    private HealthPresenter healthPresenter;
+    public static int actualHealth;
+
     // Start is called before the first frame update
     void Start()
     {
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
-        currentHealth = maxHealth;
+        healthPresenter = GetComponent<HealthPresenter>();
+        healthPresenter?.Reset();
+        actualHealth = currentHealthEnemy;
     }
     public override void Die()
     {
@@ -29,7 +34,7 @@ public class EnemyCombat : Combat
             {
                 if (character.CompareTag("Player"))
                 {
-                    character.GetComponent<Combat>().TakeDamage(attackDamage);
+                    character.GetComponent<PlayerCombat>().TakeDamage(attackDamage);
                 }
             }
         }
@@ -38,6 +43,12 @@ public class EnemyCombat : Combat
     {
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireSphere(attackController.transform.position, radioAttack * 2);
+    }
+    public override void TakeDamage(int damage)
+    {
+        base.TakeDamage(damage);
+        currentHealthEnemy -= damage;
+        healthPresenter?.Damage(damage);
     }
     private void Update()
     {
@@ -53,7 +64,7 @@ public class EnemyCombat : Combat
                 Attack();
             }
         }
-        if (currentHealth <= 0)
+        if (currentHealthEnemy <= 0)
         {
             Die();
             deathEnemy = true;

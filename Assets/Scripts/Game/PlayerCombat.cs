@@ -9,12 +9,17 @@ using static Unity.Collections.AllocatorManager;
 public class PlayerCombat : Combat
 {
     int currentAttack = 0;
+    [SerializeField] AudioManager audioManager;
+    private HealthPresenter healthPresenter;
+    public static int actualHealth;
     // Start is called before the first frame update
     void Start()
     {
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
-        currentHealth = maxHealth;
+        healthPresenter = GetComponent<HealthPresenter>();
+        healthPresenter?.Reset();
+        actualHealth = currentHealthPlayer;
     }
     public override void Attack()
     {
@@ -29,6 +34,12 @@ public class PlayerCombat : Combat
                 }
             }
         }
+    }
+    public override void TakeDamage(int damage)
+    {
+        base.TakeDamage(damage);
+        currentHealthPlayer -= damage;
+        healthPresenter?.Damage(damage);
     }
     private void Update()
     {
@@ -50,6 +61,7 @@ public class PlayerCombat : Combat
 
                 animator.SetTrigger("Attack" + currentAttack);
                 Attack();
+                audioManager = FindAnyObjectByType<AudioManager>();
 
                 nextAttack = timeSinceAttack;
             }
@@ -65,7 +77,7 @@ public class PlayerCombat : Combat
                 block |= true;
                 animator.SetBool("IdleBlock", false);
             }
-            if (currentHealth <= 0 || Input.GetKeyDown(KeyCode.R))
+            if (currentHealthPlayer <= 0 || Input.GetKeyDown(KeyCode.R))
             {
                 deathPlayer = true;
                 Die();
