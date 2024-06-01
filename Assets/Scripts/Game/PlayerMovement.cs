@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float speed;
     [SerializeField] float jumpForce;
 
+    private PlayerCombat combat;
     private Animator animator;
     private Rigidbody2D body2d;
     private PlayerSensor floorSensor;
@@ -33,6 +34,8 @@ public class PlayerMovement : MonoBehaviour
         wallSensorR2 = transform.Find("WallSensor_R2").GetComponent<PlayerSensor>();
         wallSensorL1 = transform.Find("WallSensor_L1").GetComponent<PlayerSensor>();
         wallSensorL2 = transform.Find("WallSensor_L2").GetComponent<PlayerSensor>();
+
+        combat = FindAnyObjectByType<PlayerCombat>();
     }
     // Update is called once per frame
     void Update()
@@ -51,46 +54,50 @@ public class PlayerMovement : MonoBehaviour
         /* *** ENTRADA Y MOVIMIENTO *** */
         float inputX = Input.GetAxis("Horizontal");
 
-        if (inputX > 0)
+        if (!combat.deathPlayer)
         {
-            GetComponent<SpriteRenderer>().flipX = false;
-            facingDirection = 1;
-        }
+            if (inputX > 0)
+            {
+                GetComponent<SpriteRenderer>().flipX = false;
+                facingDirection = 1;
+            }
 
-        else if (inputX < 0)
-        {
-            GetComponent<SpriteRenderer>().flipX = true;
-            facingDirection = -1;
-        }
+            else if (inputX < 0)
+            {
+                GetComponent<SpriteRenderer>().flipX = true;
+                facingDirection = -1;
+            }
 
-        body2d.velocity = new Vector2(inputX * speed, body2d.velocity.y);
+            body2d.velocity = new Vector2(inputX * speed, body2d.velocity.y);
 
-        animator.SetFloat("AirSpeedY", body2d.velocity.y);
+            animator.SetFloat("AirSpeedY", body2d.velocity.y);
 
-        /* *** ANIMACIONES *** */
-        isWallSliding = (wallSensorR1.State() && wallSensorR2.State()) || (wallSensorL1.State() && wallSensorL2.State());
-        animator.SetBool("WallSlide", isWallSliding);
+            /* *** ANIMACIONES *** */
+            isWallSliding = (wallSensorR1.State() && wallSensorR2.State()) || (wallSensorL1.State() && wallSensorL2.State());
+            animator.SetBool("WallSlide", isWallSliding);
 
-        if ((Input.GetKeyDown("up") || Input.GetKeyDown("w")) && onTheFloor)
-        {
-            animator.SetTrigger("Jump");
-            onTheFloor = false;
-            animator.SetBool("Grounded", onTheFloor);
-            body2d.velocity = new Vector2(body2d.velocity.x, jumpForce);
-            floorSensor.Disable(0.2f);
-        }
 
-        else if (Mathf.Abs(inputX) > Mathf.Epsilon)
-        {
-            delayToIdle = 0.05f;
-            animator.SetInteger("AnimState", 1);
-        }
+            if ((Input.GetKeyDown("up") || Input.GetKeyDown("w")) && onTheFloor)
+            {
+                animator.SetTrigger("Jump");
+                onTheFloor = false;
+                animator.SetBool("Grounded", onTheFloor);
+                body2d.velocity = new Vector2(body2d.velocity.x, jumpForce);
+                floorSensor.Disable(0.2f);
+            }
 
-        else
-        {
-            delayToIdle -= Time.deltaTime;
-            if (delayToIdle < 0)
-                animator.SetInteger("AnimState", 0);
+            else if (Mathf.Abs(inputX) > Mathf.Epsilon)
+            {
+                delayToIdle = 0.05f;
+                animator.SetInteger("AnimState", 1);
+            }
+
+            else
+            {
+                delayToIdle -= Time.deltaTime;
+                if (delayToIdle < 0)
+                    animator.SetInteger("AnimState", 0);
+            }
         }
     }
 

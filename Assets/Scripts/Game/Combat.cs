@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -14,10 +15,14 @@ public abstract class Combat : MonoBehaviour
     [SerializeField] protected float timeSinceAttack = 1;
     [SerializeField] protected float nextAttack;
     [SerializeField] protected int attackDamage = 20;
+
+    public event Action<bool> IsGameOver;
+    public event Action<bool> IsGameWin;
+
     protected Animator animator;
     protected Rigidbody2D rb;
     protected bool block = false;
-    protected bool deathPlayer = false, deathEnemy = false;   
+    public bool deathPlayer = false, deathEnemy = false;   
     // Start is called before the first frame update
     void Start()
     {
@@ -30,6 +35,10 @@ public abstract class Combat : MonoBehaviour
     {
         currentHealth -= damage;
         animator.SetTrigger("Hurt");
+        if(deathPlayer)
+            IsGameOver?.Invoke(deathPlayer);
+        if(deathEnemy)
+            IsGameWin?.Invoke(deathEnemy);
     }
     public virtual void Die()
     {

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -34,39 +35,41 @@ public class PlayerCombat : Combat
         block = false;
         if (nextAttack > 0)
             nextAttack -= Time.deltaTime;
-
-        if (Input.GetMouseButtonDown(0) && nextAttack <= 0)
+        if (!deathPlayer)
         {
-            /*Hay tres animaciones de ataque*/
-            currentAttack++;
+            if (Input.GetMouseButtonDown(0) && nextAttack <= 0)
+            {
+                /*Hay tres animaciones de ataque*/
+                currentAttack++;
 
-            if (currentAttack > 3)
-                currentAttack = 1;
+                if (currentAttack > 3)
+                    currentAttack = 1;
 
-            if (timeSinceAttack > 1.0f)
-                currentAttack = 1;
+                if (timeSinceAttack > 1.0f)
+                    currentAttack = 1;
 
-            animator.SetTrigger("Attack" + currentAttack);
-            Attack();
+                animator.SetTrigger("Attack" + currentAttack);
+                Attack();
 
-            nextAttack = timeSinceAttack;
-        }
-        else if (Input.GetMouseButtonDown(1))
-        {
-            block = true;
-            animator.SetTrigger("Block");
-            animator.SetBool("IdleBlock", true);
-        }
+                nextAttack = timeSinceAttack;
+            }
+            else if (Input.GetMouseButtonDown(1))
+            {
+                block = true;
+                animator.SetTrigger("Block");
+                animator.SetBool("IdleBlock", true);
+            }
 
-        else if (Input.GetMouseButtonUp(1))
-        {
-            block |= true;
-            animator.SetBool("IdleBlock", false);
-        }
-        if (currentHealth <= 0)
-        {
-            Die();
-            deathPlayer = true;
+            else if (Input.GetMouseButtonUp(1))
+            {
+                block |= true;
+                animator.SetBool("IdleBlock", false);
+            }
+            if (currentHealth <= 0 || Input.GetKeyDown(KeyCode.R))
+            {
+                deathPlayer = true;
+                Die();
+            }
         }
     }
     public override void OnDrawGizmos()
