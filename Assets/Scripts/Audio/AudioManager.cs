@@ -23,6 +23,15 @@ public class AudioManager : MonoBehaviour
             Instance = this;
         else
             Destroy(this);
+        if (AudioSource_Music == null)
+        {
+            AudioSource_Music = gameObject.AddComponent<AudioSource>();
+        }
+
+        if (AudioSource_SFX == null)
+        {
+            AudioSource_SFX = gameObject.AddComponent<AudioSource>();
+        }
     }
     public void PlayMusic(string soundName)
     {

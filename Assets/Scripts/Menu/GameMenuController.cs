@@ -8,15 +8,24 @@ public class GameMenuController : MonoBehaviour
 {
     public static bool GameIsPaused = false;
     public static bool GameIsOver = false;
+    public static bool GameIsWin = false;
 
     //Observer to handle reloading text in hud
     public event Action<bool> OnPauseGameChanged;
-    public event Action<bool> IsGameOver;
 
     [SerializeField]
     KeyCode PauseMenuKey = KeyCode.Escape;
+    [SerializeField]
+    KeyCode OverMenuKey = KeyCode.R;
 
-    public GameObject gameOver;
+    public Combat combatP, combatE;
+    public GameObject GameOverPanel;
+    public GameObject WinPanel;
+    void Star()
+    {
+        combatP = FindObjectOfType<Combat>();
+        combatE = FindObjectOfType<Combat>();
+    }
     // Update is called once per frame
     void Update()
     {
@@ -31,14 +40,18 @@ public class GameMenuController : MonoBehaviour
                 Pause();
             }
         }
-        if(GameIsOver)
+        if (combatP.deathPlayer || Input.GetKeyDown(OverMenuKey))
         {
             GameOver();
         }
         else
+            GameIsOver = false;
+        if (combatE.deathEnemy)
         {
-            Resume();
+            YouWin();
         }
+        else
+            GameIsWin = false;
     }
     public void Resume()
     {
@@ -64,9 +77,19 @@ public class GameMenuController : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         Resume();
     }
+    public void QuitGame()
+    {
+        UnityEditor.EditorApplication.isPlaying = false;
+        Application.Quit();
+    }
     public void GameOver()
     {
-        GameIsOver = false;
-        IsGameOver?.Invoke(GameIsOver);
+        GameIsOver = true;
+        GameOverPanel.SetActive(GameIsOver);
+    }
+    public void YouWin()
+    {
+        GameIsWin = true;
+        WinPanel.SetActive(GameIsWin);
     }
 }

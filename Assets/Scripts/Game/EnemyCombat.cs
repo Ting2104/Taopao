@@ -9,6 +9,7 @@ public class EnemyCombat : Combat
     [SerializeField] Transform player;
     private HealthPresenter healthPresenter;
     public static int actualHealth;
+    PlayerCombat combatP;
 
     // Start is called before the first frame update
     void Start()
@@ -17,6 +18,7 @@ public class EnemyCombat : Combat
         rb = GetComponent<Rigidbody2D>();
         healthPresenter = GetComponent<HealthPresenter>();
         healthPresenter?.Reset();
+        combatP = FindObjectOfType<PlayerCombat>();
         actualHealth = currentHealthEnemy;
     }
     public override void Die()
@@ -24,11 +26,12 @@ public class EnemyCombat : Combat
         base.Die();
         GetComponent<Collider2D>().enabled = false;
         this.enabled = false;
+        AudioManager.Instance.PlaySFX("EnemyDie");
     }
-    public override void Attack()
+    public void Attack()
     {
         Collider2D[] hitCharacter = Physics2D.OverlapCircleAll(attackController.transform.position, radioAttack);
-        if (!deathPlayer)
+        if (!combatP.deathPlayer)
         {
             foreach (Collider2D character in hitCharacter)
             {
@@ -38,8 +41,9 @@ public class EnemyCombat : Combat
                 }
             }
         }
+        AudioManager.Instance.PlaySFX("EnemyAttack");
     }
-    public override void OnDrawGizmos()
+    public void OnDrawGizmos()
     {
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireSphere(attackController.transform.position, radioAttack * 2);
@@ -49,16 +53,17 @@ public class EnemyCombat : Combat
         base.TakeDamage(damage);
         currentHealthEnemy -= damage;
         healthPresenter?.Damage(damage);
+        AudioManager.Instance.PlaySFX("EnemyHurt");
     }
     private void Update()
     {
         if (nextAttack > 0)
             nextAttack -= Time.deltaTime;
 
-        if ((player.transform.position.x >= transform.position.x - radioAttack) && (nextAttack <= 0) && !deathPlayer)
+        if ((player.transform.position.x >= transform.position.x - radioAttack) && (nextAttack <= 0) && !combatP.deathPlayer)
         {
             nextAttack = timeSinceAttack;
-            if (!block)
+            if (!combatP.block)
             {
                 animator.SetTrigger("Attack");
                 Attack();

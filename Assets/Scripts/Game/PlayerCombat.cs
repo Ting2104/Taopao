@@ -12,16 +12,18 @@ public class PlayerCombat : Combat
     [SerializeField] AudioManager audioManager;
     private HealthPresenter healthPresenter;
     public static int actualHealth;
+
     // Start is called before the first frame update
     void Start()
     {
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         healthPresenter = GetComponent<HealthPresenter>();
+        audioManager = GetComponent<AudioManager>();
         healthPresenter?.Reset();
         actualHealth = currentHealthPlayer;
     }
-    public override void Attack()
+    public void Attack()
     {
         Collider2D[] hitCharacter = Physics2D.OverlapCircleAll(attackController.transform.position, radioAttack);
         if (!deathEnemy)
@@ -34,12 +36,14 @@ public class PlayerCombat : Combat
                 }
             }
         }
+        AudioManager.Instance.PlaySFX("PlayerAttack");
     }
     public override void TakeDamage(int damage)
     {
         base.TakeDamage(damage);
         currentHealthPlayer -= damage;
         healthPresenter?.Damage(damage);
+        AudioManager.Instance.PlaySFX("PlayerHit");
     }
     private void Update()
     {
@@ -61,7 +65,6 @@ public class PlayerCombat : Combat
 
                 animator.SetTrigger("Attack" + currentAttack);
                 Attack();
-                audioManager = FindAnyObjectByType<AudioManager>();
 
                 nextAttack = timeSinceAttack;
             }
@@ -70,6 +73,7 @@ public class PlayerCombat : Combat
                 block = true;
                 animator.SetTrigger("Block");
                 animator.SetBool("IdleBlock", true);
+                AudioManager.Instance.PlaySFX("PlayerBlock");
             }
 
             else if (Input.GetMouseButtonUp(1))
@@ -81,10 +85,11 @@ public class PlayerCombat : Combat
             {
                 deathPlayer = true;
                 Die();
+                AudioManager.Instance.PlaySFX("PlayerDie");
             }
         }
     }
-    public override void OnDrawGizmos()
+    public void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(attackController.transform.position, radioAttack);

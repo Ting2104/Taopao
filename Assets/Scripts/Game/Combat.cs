@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using static Unity.Collections.AllocatorManager;
 
-public abstract class Combat : MonoBehaviour
+public class Combat : MonoBehaviour
 {
     [SerializeField] protected GameObject attackController;
     [SerializeField] public int currentHealthEnemy, currentHealthPlayer;
@@ -21,7 +21,7 @@ public abstract class Combat : MonoBehaviour
 
     protected Animator animator;
     protected Rigidbody2D rb;
-    protected bool block = false;
+    public bool block = false;
     public bool deathPlayer = false, deathEnemy = false;   
     // Start is called before the first frame update
     void Start()
@@ -44,6 +44,4 @@ public abstract class Combat : MonoBehaviour
         animator.SetBool("noBlood", true);
         animator.SetTrigger("Death");
     }
-    public abstract void Attack();
-    public abstract void OnDrawGizmos();
 }
