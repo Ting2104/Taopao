@@ -70,6 +70,7 @@ public class MenuPlayer : MonoBehaviour
                 currentAttack = 1;
 
             animator.SetTrigger("Attack" + currentAttack);
+            AudioManager.Instance.PlaySFX("PlayerAttack");
 
             nextAttack = timeSinceAttack;
         }
@@ -79,6 +80,7 @@ public class MenuPlayer : MonoBehaviour
         {
             animator.SetTrigger("Block");
             animator.SetBool("IdleBlock", true);
+            AudioManager.Instance.PlaySFX("PlayerBlock");
         }
 
         else if (Input.GetMouseButtonUp(1))

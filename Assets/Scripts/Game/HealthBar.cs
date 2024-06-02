@@ -20,7 +20,10 @@ public class HealthBar : MonoBehaviour
     public int CurrentHealth { get => currentHealth; set => currentHealth = value; }
     public int MinHealth => minHealth;
     public int MaxHealth => maxHealth;
-
+    private void Awake()
+    {
+        currentHealth = maxHealth;
+    }
     public void Increment(int amount)
     {
         currentHealth += amount;
