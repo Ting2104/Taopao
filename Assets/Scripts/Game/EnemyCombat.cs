@@ -67,7 +67,7 @@ public class EnemyCombat : Combat
             animator.SetTrigger("Attack");
             Attack();
         }
-        if (currentHealthEnemy <= 0)
+        if (currentHealthEnemy <= 0 || Input.GetKeyDown(KeyCode.T))
         {
             Die();
             deathEnemy = true;

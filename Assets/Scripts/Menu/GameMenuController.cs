@@ -7,8 +7,9 @@ using UnityEngine.SceneManagement;
 public class GameMenuController : MonoBehaviour
 {
     public static bool GameIsPaused = false;
-    public static bool GameIsOver = false;
-    public static bool GameIsWin = false;
+
+    public bool GameIsOver = false;
+    public bool GameIsWon = false;
 
     //Observer to handle reloading text in hud
     public event Action<bool> OnPauseGameChanged;
@@ -17,10 +18,10 @@ public class GameMenuController : MonoBehaviour
     KeyCode PauseMenuKey = KeyCode.Escape;
     [SerializeField]
     KeyCode OverMenuKey = KeyCode.R;
+    [SerializeField]
+    KeyCode WinMenuKey = KeyCode.T;
 
     public Combat combatP, combatE;
-    public GameObject GameOverPanel;
-    public GameObject WinPanel;
     void Star()
     {
         combatP = FindObjectOfType<Combat>();
@@ -45,13 +46,17 @@ public class GameMenuController : MonoBehaviour
             GameOver();
         }
         else
+        { 
             GameIsOver = false;
-        if (combatE.deathEnemy)
+        }
+        if (combatE.deathEnemy || Input.GetKeyDown(WinMenuKey))
         {
             YouWin();
         }
         else
-            GameIsWin = false;
+        {
+            GameIsWon = false;
+        }
     }
     public void Resume()
     {
@@ -84,11 +89,11 @@ public class GameMenuController : MonoBehaviour
     public void GameOver()
     {
         GameIsOver = true;
-        GameOverPanel.SetActive(GameIsOver);
+        Debug.Log("Game Over");
     }
     public void YouWin()
     {
-        GameIsWin = true;
-        WinPanel.SetActive(GameIsWin);
+        GameIsWon = true;
+        Debug.Log("You Win");
     }
 }
