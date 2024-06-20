@@ -54,7 +54,7 @@ public class PlayerMovement : MonoBehaviour
         /* *** ENTRADA Y MOVIMIENTO *** */
         float inputX = Input.GetAxis("Horizontal");
 
-        if (!combat.deathPlayer)
+        if (!combat.deathPlayer && !combat.block)
         {
             if (inputX > 0)
             {

@@ -9,7 +9,6 @@ using static Unity.Collections.AllocatorManager;
 public class PlayerCombat : Combat
 {
     int currentAttack = 0;
-    [SerializeField] AudioManager audioManager;
     private HealthPresenter healthPresenter;
     public static int actualHealth;
 
@@ -19,7 +18,6 @@ public class PlayerCombat : Combat
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         healthPresenter = GetComponent<HealthPresenter>();
-        audioManager = GetComponent<AudioManager>();
         healthPresenter?.Reset();
         actualHealth = currentHealthPlayer;
     }
@@ -47,7 +45,6 @@ public class PlayerCombat : Combat
     }
     private void Update()
     {
-        block = false;
         if (nextAttack > 0)
             nextAttack -= Time.deltaTime;
         if (!deathPlayer)
@@ -78,9 +75,10 @@ public class PlayerCombat : Combat
 
             else if (Input.GetMouseButtonUp(1))
             {
-                block |= true;
+                block = false;
                 animator.SetBool("IdleBlock", false);
             }
+
             if (currentHealthPlayer <= 0 || Input.GetKeyDown(KeyCode.R))
             {
                 deathPlayer = true;

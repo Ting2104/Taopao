@@ -37,7 +37,8 @@ public class EnemyCombat : Combat
             {
                 if (character.CompareTag("Player"))
                 {
-                    character.GetComponent<PlayerCombat>().TakeDamage(attackDamage);
+                    if(!combatP.block)
+                        character.GetComponent<PlayerCombat>().TakeDamage(attackDamage);
                 }
             }
         }
@@ -63,11 +64,8 @@ public class EnemyCombat : Combat
         if ((player.transform.position.x >= transform.position.x - radioAttack) && (nextAttack <= 0) && !combatP.deathPlayer)
         {
             nextAttack = timeSinceAttack;
-            if (!combatP.block)
-            {
-                animator.SetTrigger("Attack");
-                Attack();
-            }
+            animator.SetTrigger("Attack");
+            Attack();
         }
         if (currentHealthEnemy <= 0)
         {
