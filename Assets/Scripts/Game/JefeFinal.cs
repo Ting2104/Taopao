@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Windows;
 using static UnityEngine.GraphicsBuffer;
@@ -14,31 +15,41 @@ public class JefeFinal : MonoBehaviour
     Animator animator;
     Rigidbody2D body2d;
     private float delayToIdle = 0.0f;
-    bool playerBlock;
+    private SeekBehavior seekBehavior;
+    Vector3 posObject;
     // Start is called before the first frame update
     void Start()
     {
         animator = GetComponent<Animator>();
         body2d = GetComponent<Rigidbody2D>();
+        seekBehavior = FindAnyObjectByType<SeekBehavior>();
+        posObject = Vector3.zero;
     }
     void Update()
     {
-        if ((player.transform.position.x >= transform.position.x - followDistance && player.transform.position.x <= transform.position.x - attackDistance) ||
-            (player.transform.position.x <= transform.position.x + followDistance && player.transform.position.x >= transform.position.x + attackDistance))
+        float distanceToPlayer = Vector3.Distance(player.position, transform.position);
+        if (distanceToPlayer <= followDistance && distanceToPlayer > attackDistance)
         {
             delayToIdle = 0.5f;
             animator.SetInteger("AnimState", 1);
+            posObject = player.position;
         }
-        else
+        else if (distanceToPlayer <= attackDistance)
         {
             delayToIdle -= Time.deltaTime;
             if (delayToIdle < 0)
                 animator.SetInteger("AnimState", 0);
         }
+        else
+        {
+            delayToIdle = 0.5f;
+            animator.SetInteger("AnimState", 1);
+            posObject = seekBehavior._patrolPoints[seekBehavior._currentPoint].position;
+        }
 
-        if (player.transform.position.x < transform.position.x)
+        if (posObject.x < transform.position.x)
             GetComponent<SpriteRenderer>().flipX = false;
-        else if (player.transform.position.x > transform.position.x)
+        else if (posObject.x > transform.position.x)
             GetComponent<SpriteRenderer>().flipX = true;
     }
 }

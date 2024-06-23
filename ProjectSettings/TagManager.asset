@@ -5,9 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Obstacle
-  - WinPanel
-  - GameOverPanel
   - Enemy
+  - WinChest
+  - PatrolPoints
   layers:
   - Default
   - TransparentFX
